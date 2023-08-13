@@ -11,6 +11,18 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
+-- Default start WSL if on Windows
+if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+	config.default_domain = "WSL:Ubuntu"
+	config.wsl_domains = {
+		{
+			name = "WSL:Ubuntu",
+			distribution = "Ubuntu",
+			default_cwd = "/mnt/c/Users/Lingxi",
+		},
+	}
+end
+
 -- Show which key table is active in the status area
 wezterm.on("update-right-status", function(window, pane)
 	local name = window:active_key_table()
