@@ -23,17 +23,38 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 	}
 end
 
--- Show which key table is active in the status area
 wezterm.on("update-right-status", function(window, pane)
-	local name = window:active_key_table()
-	if name then
-		name = "TABLE: " .. name
+	-- Show which key table is active in the status area
+	local key_table = window:active_key_table()
+	local name = ""
+	if key_table then
+		name = "  Active key table: " .. key_table .. "  "
 	end
-	window:set_right_status(name or "")
+
+	-- Title for path
+	local title = pane:get_title()
+
+	-- generate padding to center title by adding half of width (cols), half
+	-- of title length, length of date string and integrated buttons width
+	--
+	-- if there are any theming in date or title use `wezterm.column.width`
+	local padding = wezterm.pad_right("", 2)
+
+	window:set_right_status(wezterm.format({
+		{ Background = { Color = "#d79921" } },
+		{ Text = name },
+		{ Background = { Color = "#333333" } },
+		{ Text = " " .. title .. " " },
+		{ Background = { Color = "#333333" } },
+		{ Text = padding },
+	}))
 end)
 
 -- Disable font ligatures
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
+
+-- Disable command line bell
+config.audible_bell = "Disabled"
 
 -- timeout_milliseconds defaults to 1000 and can be omitted
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
@@ -113,5 +134,7 @@ config.key_tables = {
 		{ key = "j", action = act.ActivatePaneDirection("Down") },
 	},
 }
+
+config.color_scheme = "Gruvbox Dark (Gogh)"
 
 return config
