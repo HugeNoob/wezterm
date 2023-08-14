@@ -24,6 +24,12 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 end
 
 wezterm.on("update-right-status", function(window, pane)
+	-- Show LEADER on
+	local leader = ""
+	if window:leader_is_active() then
+		leader = "  LEADER  "
+	end
+
 	-- Show which key table is active in the status area
 	local key_table = window:active_key_table()
 	local name = ""
@@ -42,6 +48,8 @@ wezterm.on("update-right-status", function(window, pane)
 
 	window:set_right_status(wezterm.format({
 		{ Background = { Color = "#d79921" } },
+		{ Text = leader },
+		{ Background = { Color = "#cc241d" } },
 		{ Text = name },
 		{ Background = { Color = "#333333" } },
 		{ Text = " " .. title .. " " },
