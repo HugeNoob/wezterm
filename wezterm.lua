@@ -65,7 +65,7 @@ config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
 config.audible_bell = "Disabled"
 
 -- timeout_milliseconds defaults to 1000 and can be omitted
-config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1500 }
 config.keys = {
     {
         key = "-",
@@ -91,14 +91,10 @@ config.keys = {
             one_shot = false,
         }),
     },
-    {
-        key = "a",
-        mods = "LEADER",
-        action = act.ActivateKeyTable({
-            name = "activate_pane",
-            timeout_milliseconds = 1000,
-        }),
-    },
+    { key = "h", mods = "LEADER", action = act.ActivatePaneDirection("Left") },
+    { key = "l", mods = "LEADER", action = act.ActivatePaneDirection("Right") },
+    { key = "k", mods = "LEADER", action = act.ActivatePaneDirection("Up") },
+    { key = "j", mods = "LEADER", action = act.ActivatePaneDirection("Down") }
 }
 
 config.key_tables = {
@@ -120,20 +116,6 @@ config.key_tables = {
 
         -- Cancel the mode by pressing escape
         { key = "Escape",     action = "PopKeyTable" },
-    },
-
-    -- Defines the keys that are active in our activate-pane mode.
-    -- 'activate_pane' here corresponds to the name="activate_pane" in
-    -- the key assignments above.
-    activate_pane = {
-        { key = "LeftArrow",  action = act.ActivatePaneDirection("Left") },
-        { key = "h",          action = act.ActivatePaneDirection("Left") },
-        { key = "RightArrow", action = act.ActivatePaneDirection("Right") },
-        { key = "l",          action = act.ActivatePaneDirection("Right") },
-        { key = "UpArrow",    action = act.ActivatePaneDirection("Up") },
-        { key = "k",          action = act.ActivatePaneDirection("Up") },
-        { key = "DownArrow",  action = act.ActivatePaneDirection("Down") },
-        { key = "j",          action = act.ActivatePaneDirection("Down") },
     },
 }
 
