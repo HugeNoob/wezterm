@@ -23,6 +23,13 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
     }
 end
 
+-- Maximize on startup
+wezterm.on("gui-startup", function()
+    local mux = wezterm.mux
+    local tab, pane, window = mux.spawn_window(cmd or {})
+    window:gui_window():maximize()
+end)
+
 wezterm.on("update-right-status", function(window, pane)
     -- Show LEADER on
     local leader = ""
